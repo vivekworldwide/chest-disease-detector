@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ChestVision AI: Deep Learning hybrid CNN and Vision Transformer system for rapid detection of COVID-19, Normal, and Viral Pneumonia from chest X-rays.">
+  <title>ChestVision AI | Clinical Chest Disease Diagnostic Suite</title>
+  
+  <!-- Modern Font & Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Navigation Header -->
+    <header class="navbar">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <!-- Pulse / Lungs Medical SVG Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="brand-title">ChestVision AI</span>
+          <span class="brand-badge">Clinical v1.0</span>
+        </div>
+      </div>
+
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span>Model Ready (PyTorch Hybrid CNN-Transformer)</span>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 14 14"/>
+        </svg>
+        <span>Instant Pulmonary Radiograph Screening</span>
+      </div>
+      <h1 class="hero-title">Automated Chest Disease Detection</h1>
+      <p class="hero-subtitle">
+        Powered by a hybrid 5-stage CNN backbone and multi-head Vision Transformer encoder. Analyzes frontal chest X-rays to screen for COVID-19, Viral Pneumonia, and Healthy lung parenchyma in milliseconds.
+      </p>
+    </section>
+
+    <!-- Quick Test Sample X-Rays Bar -->
+    <section class="samples-bar-container" aria-label="Sample X-Ray Scans">
+      <div class="samples-header">
+        <span class="samples-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          No X-Ray on hand? Try a verified sample scan:
+        </span>
+      </div>
+
+      <div class="samples-grid">
+        <!-- Sample 1: Normal -->
+        <div class="sample-card" data-sample="normal_sample.png" role="button" tabindex="0" title="Click to test Normal Chest X-Ray">
+          <div class="sample-thumb-wrapper">
+            <img src="{{ url_for('static', filename='samples/normal_sample.png') }}" alt="Normal Chest X-ray Sample" loading="lazy">
+          </div>
+          <div class="sample-info">
+            <div class="sample-name">
+              <span>Healthy / Normal</span>
+            </div>
+            <div class="sample-desc">Clear bilateral pulmonary fields</div>
+          </div>
+          <span class="sample-action-btn">Test Scan</span>
+        </div>
+
+        <!-- Sample 2: COVID-19 -->
+        <div class="sample-card" data-sample="covid_sample.png" role="button" tabindex="0" title="Click to test COVID-19 Chest X-Ray">
+          <div class="sample-thumb-wrapper">
+            <img src="{{ url_for('static', filename='samples/covid_sample.png') }}" alt="COVID-19 Chest X-ray Sample" loading="lazy">
+          </div>
+          <div class="sample-info">
+            <div class="sample-name">
+              <span>COVID-19 Positive</span>
+            </div>
+            <div class="sample-desc">Peripheral ground-glass opacities</div>
+          </div>
+          <span class="sample-action-btn">Test Scan</span>
+        </div>
+
+        <!-- Sample 3: Viral Pneumonia -->
+        <div class="sample-card" data-sample="pneumonia_sample.png" role="button" tabindex="0" title="Click to test Viral Pneumonia Chest X-Ray">
+          <div class="sample-thumb-wrapper">
+            <img src="{{ url_for('static', filename='samples/pneumonia_sample.png') }}" alt="Viral Pneumonia Chest X-ray Sample" loading="lazy">
+          </div>
+          <div class="sample-info">
+            <div class="sample-name">
+              <span>Viral Pneumonia</span>
+            </div>
+            <div class="sample-desc">Diffuse interstitial infiltrates</div>
+          </div>
+          <span class="sample-action-btn">Test Scan</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Diagnostic Workspace -->
+    <main class="workspace-grid">
+      <!-- Left Panel: Input & Image Scanner -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Chest Radiograph Input
+          </h2>
+          <span class="panel-step-badge">INPUT</span>
+        </div>
+
+        <!-- Dropzone Container -->
+        <div class="dropzone-container" id="dropzone">
+          <div class="dropzone-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+              <path d="M12 12v9"/>
+              <path d="m16 16-4-4-4 4"/>
+            </svg>
+          </div>
+          <div class="dropzone-title">Drag & drop chest X-ray here</div>
+          <div class="dropzone-subtitle">or browse from your local device</div>
+          <button type="button" class="file-select-btn" id="selectFileBtn">Choose X-Ray File</button>
+          <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;">
+          <div class="file-specs">Supports PNG, JPG, JPEG • Recommended frontal PA/AP view</div>
+        </div>
+
+        <!-- Preview & Scanner Area -->
+        <div class="preview-container" id="previewContainer">
+          <div class="image-preview-frame">
+            <div class="scan-line" id="scanLine"></div>
+            <img id="previewImage" src="" alt="Selected Chest X-ray Preview">
+          </div>
+          <div class="preview-actions">
+            <button type="button" class="btn-secondary" id="changeImageBtn">Change Scan</button>
+            <button type="button" class="btn-primary" id="runAnalyzeBtn">Analyze Scan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: AI Diagnostic Analysis Results -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Diagnostic Assessment
+          </h2>
+          <span class="panel-step-badge">AI REPORT</span>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <p style="font-weight: 600; margin-bottom: 4px;">No radiograph analyzed yet</p>
+          <p style="font-size: 0.85rem;">Select one of the sample scans above or upload an X-ray to generate full clinical probabilities.</p>
+        </div>
+
+        <!-- Loading State during inference -->
+        <div class="loading-state" id="loadingState">
+          <div class="spinner-ring"></div>
+          <div class="loading-text">Processing Radiograph...</div>
+          <div class="loading-step-msg" id="loadingStepMsg">Extracting pulmonary features...</div>
+        </div>
+
+        <!-- Results Display Content -->
+        <div class="results-content" id="resultsContent">
+          <!-- Primary Diagnosis Banner -->
+          <div class="diagnosis-banner" id="diagnosisBanner">
+            <div class="diagnosis-info-left">
+              <span class="diagnosis-tag">Primary Classification</span>
+              <span class="diagnosis-name" id="diagnosisName">Normal</span>
+            </div>
+            <div class="confidence-score-block">
+              <div class="confidence-number" id="confidenceNumber">98%</div>
+              <div class="confidence-label">Confidence</div>
+            </div>
+          </div>
+
+          <!-- Probability Breakdown -->
+          <div class="probability-section">
+            <div class="section-label">Class Probability Distribution</div>
+            <div class="probability-bars-list" id="probabilityBarsList">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- Clinical Insights & Findings -->
+          <div class="clinical-card">
+            <div class="section-label">Radiological Insights & Findings</div>
+            <p class="clinical-summary" id="clinicalSummary"></p>
+            <ul class="clinical-bullets" id="clinicalBullets">
+              <!-- Populated via JS -->
+            </ul>
+          </div>
+
+          <!-- Metadata & Actions -->
+          <div class="inference-meta">
+            <span id="latencyBadge">Inference: 0 ms</span>
+            <span id="deviceBadge">Engine: PyTorch</span>
+          </div>
+
+          <div class="result-actions-row">
+            <button type="button" class="btn-secondary" id="printReportBtn">
+              Print / Save PDF Report
+            </button>
+            <button type="button" class="btn-primary" id="analyzeAnotherBtn">
+              Analyze Another Scan
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Medical Disclaimer Banner -->
+    <aside class="disclaimer-card" role="note">
+      <div class="disclaimer-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div class="disclaimer-text">
+        <strong>Clinical & Ethical Disclaimer:</strong> This artificial intelligence system is designed solely as an investigational decision-support tool for educational and preliminary screening purposes. It does not replace certified radiological review, RT-PCR testing, or comprehensive physician diagnosis. Always consult certified medical personnel for medical emergencies and clinical evaluations.
+      </div>
+    </aside>
+
+    <!-- Model Architecture & Technology Section -->
+    <section>
+      <h2 class="tech-section-title">Deep Learning Architecture</h2>
+      <div class="tech-cards-grid">
+        <div class="tech-card">
+          <div class="tech-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+              <line x1="6" y1="6" x2="6.01" y2="6"/>
+              <line x1="6" y1="18" x2="6.01" y2="18"/>
+            </svg>
+          </div>
+          <h3 class="tech-card-title">5-Stage CNN Backbone</h3>
+          <p class="tech-card-desc">
+            Extracts fine spatial pulmonary features, opacities, and edges progressively across channels 32 to 512, downsampling high-resolution radiographs into a dense 7x7 spatial feature grid.
+          </p>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <h3 class="tech-card-title">Vision Transformer Encoder</h3>
+          <p class="tech-card-desc">
+            Applies 8-head self-attention with learnable positional embeddings across 49 visual tokens. Captures long-range bilateral lung relationships that traditional CNNs often miss.
+          </p>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20v-6M6 20V10M18 20V4"/>
+            </svg>
+          </div>
+          <h3 class="tech-card-title">Class-Weighted Loss & AdamW</h3>
+          <p class="tech-card-desc">
+            Trained with inverse frequency class-weighting and AdamW optimizer with cosine learning rate scheduling to address medical dataset imbalances across COVID, Normal, and Viral Pneumonia.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>ChestVision AI • Built with PyTorch & Flask • High-Performance Medical Deep Learning Suite</p>
+    </footer>
+  </div>
+
+  <!-- Client JavaScript -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
