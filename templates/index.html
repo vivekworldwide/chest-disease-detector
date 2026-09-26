@@ -7,7 +7,7 @@
   <title>ChestVision AI | Clinical Chest Disease Diagnostic Suite</title>
   
   <!-- Modern Font & Stylesheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
 </head>
 <body>
@@ -66,7 +66,7 @@
         <!-- Sample 1: Normal -->
         <div class="sample-card" data-sample="normal_sample.png" role="button" tabindex="0" title="Click to test Normal Chest X-Ray">
           <div class="sample-thumb-wrapper">
-            <img src="{{ url_for('static', filename='samples/normal_sample.png') }}" alt="Normal Chest X-ray Sample" loading="lazy">
+            <img src="{{ url_for('static', path='samples/normal_sample.png') }}" alt="Normal Chest X-ray Sample" loading="lazy">
           </div>
           <div class="sample-info">
             <div class="sample-name">
@@ -80,7 +80,7 @@
         <!-- Sample 2: COVID-19 -->
         <div class="sample-card" data-sample="covid_sample.png" role="button" tabindex="0" title="Click to test COVID-19 Chest X-Ray">
           <div class="sample-thumb-wrapper">
-            <img src="{{ url_for('static', filename='samples/covid_sample.png') }}" alt="COVID-19 Chest X-ray Sample" loading="lazy">
+            <img src="{{ url_for('static', path='samples/covid_sample.png') }}" alt="COVID-19 Chest X-ray Sample" loading="lazy">
           </div>
           <div class="sample-info">
             <div class="sample-name">
@@ -94,7 +94,7 @@
         <!-- Sample 3: Viral Pneumonia -->
         <div class="sample-card" data-sample="pneumonia_sample.png" role="button" tabindex="0" title="Click to test Viral Pneumonia Chest X-Ray">
           <div class="sample-thumb-wrapper">
-            <img src="{{ url_for('static', filename='samples/pneumonia_sample.png') }}" alt="Viral Pneumonia Chest X-ray Sample" loading="lazy">
+            <img src="{{ url_for('static', path='samples/pneumonia_sample.png') }}" alt="Viral Pneumonia Chest X-ray Sample" loading="lazy">
           </div>
           <div class="sample-info">
             <div class="sample-name">
@@ -299,11 +299,11 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <p>ChestVision AI • Built with PyTorch & Flask • High-Performance Medical Deep Learning Suite</p>
+      <p>ChestVision AI • Built with PyTorch & FastAPI • High-Performance Medical Deep Learning Suite</p>
     </footer>
   </div>
 
   <!-- Client JavaScript -->
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', path='js/main.js') }}"></script>
 </body>
 </html>
