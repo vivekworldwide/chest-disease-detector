@@ -200,6 +200,70 @@ class ChestDiseaseClassifier:
         conf_percent = round(confidence.item() * 100, 2)
         elapsed_ms = round((time.time() - start_time) * 1000, 1)
 
+        # ---------------------------------------------------------------------
+        # Out-Of-Domain (OOD) / Non-X-Ray Image Validation Guard
+        # Check image characteristics (grayscale channel variance, brightness, structure)
+        # ---------------------------------------------------------------------
+        import numpy as np
+        img_np = np.array(image)
+        
+        is_invalid_xray = False
+        rejection_reason = ""
+
+        if img_np.ndim == 3 and img_np.shape[2] == 3:
+            # Check color variance across RGB channels (X-rays are grayscale or near-monochrome)
+            r, g, b = img_np[:,:,0].astype(float), img_np[:,:,1].astype(float), img_np[:,:,2].astype(float)
+            color_diff = np.mean(np.abs(r - g) + np.abs(g - b) + np.abs(r - b))
+            
+            # Brightness mean and variance
+            gray = np.mean(img_np, axis=2)
+            mean_bright = np.mean(gray)
+            std_bright = np.std(gray)
+            
+            # Heuristic checks for non-X-ray document/screenshot/photo uploads
+            if color_diff > 35.0:
+                is_invalid_xray = True
+                rejection_reason = "High color saturation detected. Uploaded file appears to be a color photo or document screenshot rather than a chest radiograph."
+            elif mean_bright > 220 or mean_bright < 15:
+                is_invalid_xray = True
+                rejection_reason = "Extreme luminance detected (overly bright document/white background or solid black image)."
+            elif std_bright < 20.0:
+                is_invalid_xray = True
+                rejection_reason = "Low image contrast/detail. Image does not contain radiographic skeletal or tissue structure."
+
+        if is_invalid_xray:
+            return {
+                "predicted_class": "Invalid / Non-X-Ray",
+                "confidence": 0.0,
+                "latency_ms": elapsed_ms,
+                "device": str(self.device),
+                "probabilities": [
+                    {"class_name": c, "percentage": 0.0, "is_primary": False} for c in self.classes
+                ],
+                "metadata": {
+                    "badge_class": "status-unknown",
+                    "icon": "alert-triangle",
+                    "severity": "Invalid Input Detected",
+                    "summary": f"Image rejection: {rejection_reason}",
+                    "findings": [
+                        "Input image failed domain validation checks for medical chest X-rays.",
+                        "Image exhibits non-radiographic features (e.g., text document, web UI screenshot, color photograph)."
+                    ],
+                    "recommendations": [
+                        "Please upload a clear, grayscale chest radiograph (PA or AP view) in PNG or JPEG format."
+                    ]
+                }
+            }
+
+        meta = DISEASE_METADATA.get(pred_class, {
+            "badge_class": "status-unknown",
+            "icon": "activity",
+            "severity": "Clinical Review Needed",
+            "summary": "AI prediction complete. Please review with medical team.",
+            "findings": ["Analysis generated based on deep CNN-Transformer features."],
+            "recommendations": ["Consult medical provider for official assessment."]
+        })
+
         # Build class-level probability breakdown
         prob_distribution = []
         for i, class_name in enumerate(self.classes):
@@ -212,15 +276,6 @@ class ChestDiseaseClassifier:
 
         # Sort probability breakdown descending
         prob_distribution.sort(key=lambda item: item["percentage"], reverse=True)
-
-        meta = DISEASE_METADATA.get(pred_class, {
-            "badge_class": "status-unknown",
-            "icon": "activity",
-            "severity": "Clinical Review Needed",
-            "summary": "AI prediction complete. Please review with medical team.",
-            "findings": ["Analysis generated based on deep CNN-Transformer features."],
-            "recommendations": ["Consult medical provider for official assessment."]
-        })
 
         return {
             "predicted_class": pred_class,
