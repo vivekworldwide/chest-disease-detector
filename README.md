@@ -1,18 +1,8 @@
----
-title: ChestVision AI
-emoji: 🫁
-colorFrom: blue
-colorTo: cyan
-sdk: docker
-app_port: 7860
-pinned: true
-license: mit
-short_description: Chest X-Ray Disease Classifier — COVID, Normal, Viral Pneumonia
----
-
 # 🫁 ChestVision AI — Chest X-Ray Disease Classifier
 
 **Real-time chest radiograph analysis** powered by a custom **Hybrid CNN + Vision Transformer** architecture built with PyTorch.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 
 ## 🔬 What It Does
 
@@ -45,11 +35,17 @@ Upload a chest X-ray (PA/AP view) and get:
 - Out-of-domain image detection (rejects non-X-ray uploads)
 - Medical disclaimer included — not a substitute for professional diagnosis
 
-## 🚀 Usage
+## 🚀 Local Development
 
-1. Open the app
-2. Upload a chest X-ray or use a sample scan
-3. Click "Analyze" to get instant AI diagnosis
+```bash
+pip install -r requirements.txt
+python app.py
+# Opens at http://localhost:7860
+```
+
+## ☁️ Deployment
+
+Deployed on **Render** (free tier). Connect your GitHub repo and it auto-deploys on every push.
 
 ---
 
