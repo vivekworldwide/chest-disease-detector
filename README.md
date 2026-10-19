@@ -2,7 +2,7 @@
 
 **High-Performance Pulmonary Diagnostic Dashboard** powered by a custom **Hybrid CNN + Vision Transformer** deep learning model built with PyTorch & FastAPI.
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+[![Website](https://render.com/images/deploy-to-render-button.svg)](https://chestvision-ai-5a9b.onrender.com/)
 
 ---
 
@@ -25,39 +25,6 @@
 | **Input Resolution** | 224 × 224 RGB, ImageNet standard normalization |
 | **Classification Head** | Dense projection with ReLU and Dropout (0.2) into 3 Softmax output logits |
 | **Serving Stack** | FastAPI + Uvicorn (Asynchronous ASGI server) |
-
----
-
-## 🚀 How to Deploy on Render (Step-by-Step)
-
-### Option 1: Using Render Blueprint (Automatic — 1 Click)
-1. Push your repository to **GitHub**.
-2. Go to [dashboard.render.com](https://dashboard.render.com).
-3. Click **New +** > **Blueprint**.
-4. Connect this GitHub repository.
-5. Render reads `render.yaml` automatically and configures all settings (Python 3.11, build command, port, start command). Click **Apply**.
-
-### Option 2: Manual Web Service Setup
-1. Go to [dashboard.render.com](https://dashboard.render.com).
-2. Click **New +** > **Web Service**.
-3. Connect your GitHub repository.
-4. Fill in the following settings:
-   - **Name**: `chestvision-ai`
-   - **Language**: `Python 3`
-   - **Branch**: `main`
-   - **Region**: Any (e.g. `Oregon (US West)` or `Frankfurt (EU Central)`)
-   - **Build Command**:
-     ```bash
-     pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-     ```
-   - **Start Command**:
-     ```bash
-     uvicorn app:app --host 0.0.0.0 --port $PORT
-     ```
-   - **Plan**: `Free`
-5. Under **Advanced** > **Add Environment Variable**:
-   - `PYTHON_VERSION`: `3.11.9`
-6. Click **Deploy Web Service**!
 
 ---
 
