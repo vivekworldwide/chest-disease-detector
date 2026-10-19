@@ -3,10 +3,6 @@
 **High-Performance Pulmonary Diagnostic Dashboard** powered by a custom **Hybrid CNN + Vision Transformer** deep learning model built with PyTorch & FastAPI.
 
 [![ChestVision AI Live App](https://raw.githubusercontent.com/vivekworldwide/chest-disease-detector/main/static/live_demo_badge.svg)](https://chestvision-ai-5a9b.onrender.com/)
-&nbsp;
-[![Live Website](https://img.shields.io/badge/Render-Live%20Website-46e3b7?style=for-the-badge&logo=render&logoColor=black)](https://chestvision-ai-5a9b.onrender.com/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
 
 ---
 
