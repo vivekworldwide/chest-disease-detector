@@ -218,13 +218,6 @@ __marimo__/
 .streamlit/secrets.toml
 
 dataset/
+*.pkl 
 __pycache__/
-
-# Training artifacts (not needed for deployment)
-*.pkl
-notebooks/
-training.ipynb
-
-# Local dev
 .vscode/
-venv/

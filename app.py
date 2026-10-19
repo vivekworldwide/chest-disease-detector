@@ -178,6 +178,8 @@ async def predict(
 
 if __name__ == "__main__":
     import uvicorn
-    # PORT env var is set by Hugging Face Spaces (7860), fallback to 5000 for local dev
-    port = int(os.environ.get("PORT", 7860))
-    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=True)
+    # Render sets $PORT dynamically; bind to 0.0.0.0 on Render, 127.0.0.1 locally
+    port = int(os.environ.get("PORT", 5000))
+    host = "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1"
+    is_dev = not bool(os.environ.get("PORT"))
+    uvicorn.run("app:app", host=host, port=port, reload=is_dev)
