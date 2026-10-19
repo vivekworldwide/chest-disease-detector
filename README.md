@@ -2,7 +2,11 @@
 
 **High-Performance Pulmonary Diagnostic Dashboard** powered by a custom **Hybrid CNN + Vision Transformer** deep learning model built with PyTorch & FastAPI.
 
-[![Website](https://render.com/images/deploy-to-render-button.svg)](https://chestvision-ai-5a9b.onrender.com/)
+[![ChestVision AI Live App](https://raw.githubusercontent.com/vivekworldwide/chest-disease-detector/main/static/live_demo_badge.svg)](https://chestvision-ai-5a9b.onrender.com/)
+&nbsp;
+[![Live Website](https://img.shields.io/badge/Render-Live%20Website-46e3b7?style=for-the-badge&logo=render&logoColor=black)](https://chestvision-ai-5a9b.onrender.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
 
 ---
 
@@ -25,22 +29,6 @@
 | **Input Resolution** | 224 × 224 RGB, ImageNet standard normalization |
 | **Classification Head** | Dense projection with ReLU and Dropout (0.2) into 3 Softmax output logits |
 | **Serving Stack** | FastAPI + Uvicorn (Asynchronous ASGI server) |
-
----
-
-## 💻 Local Execution
-
-To run locally on your machine:
-
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Launch FastAPI app
-python app.py
-```
-Open your browser and navigate to `http://127.0.0.1:5000` (or `http://localhost:5000`).
-Interactive Swagger API documentation is available at `http://127.0.0.1:5000/docs`.
 
 ---
 
